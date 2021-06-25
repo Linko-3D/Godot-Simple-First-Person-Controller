@@ -70,9 +70,9 @@ func _physics_process(delta):
 		direction.x = Input.get_joy_axis(0, 0)
 		
 		# Apply a deadzone to the joystick
-		if direction.z < 0.2 and direction.z > -joystick_deadzone:
+		if direction.z < joystick_deadzone and direction.z > -joystick_deadzone:
 			direction.z = 0
-		if direction.x < 0.2 and direction.x > -joystick_deadzone:
+		if direction.x < joystick_deadzone and direction.x > -joystick_deadzone:
 			direction.x = 0
 	
 	# Rotates the direction from the Y axis to move forward
