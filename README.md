@@ -4,13 +4,13 @@ A simple **Godot First-Person Controller** with movement, jumping, walking, crou
 
 ### **Input Setup:**  
 Configure these inputs in the **Input Map**:  
-- **Forward** (*W recommended*)  
-- **Backward** (*S recommended*)  
-- **Left** (*A recommended*)  
-- **Right** (*D recommended*)  
-- **Jump** (*Space recommended*)  
-- **Walk** (*Shift recommended*)  
-- **Crouch** (*Ctrl recommended*)  
+- **forward** (*W recommended*)  
+- **backward** (*S recommended*)  
+- **left** (*A recommended*)  
+- **right** (*D recommended*)  
+- **jump** (*Space recommended*)  
+- **walk** (*Shift recommended*)  
+- **crouch** (*Ctrl recommended*)  
 
 ### **Features:**  
 - **Ceiling Detection:** Uses a **raycast** to prevent uncrouching if there’s not enough space.  
