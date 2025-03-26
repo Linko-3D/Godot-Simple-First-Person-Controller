@@ -1,6 +1,6 @@
 # Simple First Person Controller  
 
-A simple **Godot First-Person Controller** with movement, jumping, walking, crouching, and smooth animations.  
+A simple **Godot First-Person Controller** with movement, jumping, walking, crouching, footstep sounds and smooth animations.  
 
 ### **Input Setup:**  
 Configure these inputs in the **Input Map**:  
