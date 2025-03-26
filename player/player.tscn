@@ -1,0 +1,97 @@
+[gd_scene load_steps=15 format=3 uid="uid://jyncanbkjjnq"]
+
+[ext_resource type="Script" uid="uid://c1ra6l46652u8" path="res://player/player.gd" id="1_oul6g"]
+[ext_resource type="AudioStream" uid="uid://eqlentp01xuq" path="res://player/sounds/footsteps/footstep_1.wav" id="2_2ieo8"]
+[ext_resource type="AudioStream" uid="uid://by8dmshhu4ejq" path="res://player/sounds/footsteps/footstep_2.wav" id="3_ebec5"]
+[ext_resource type="AudioStream" uid="uid://dqxxb37fiv0jn" path="res://player/sounds/footsteps/footstep_3.wav" id="4_yllr7"]
+[ext_resource type="AudioStream" uid="uid://q5abfjpo42gh" path="res://player/sounds/footsteps/footstep_4.wav" id="5_kb6p2"]
+[ext_resource type="AudioStream" uid="uid://6a0ibe1xisjr" path="res://player/sounds/footsteps/footstep_5.wav" id="6_wodsf"]
+[ext_resource type="AudioStream" uid="uid://daep1n0g0sf5i" path="res://player/sounds/footsteps/footstep_6.wav" id="7_32hag"]
+[ext_resource type="AudioStream" uid="uid://4wygyk7vbfl" path="res://player/sounds/footsteps/footstep_7.wav" id="8_tqiix"]
+[ext_resource type="AudioStream" uid="uid://b8j5dvefv2fmt" path="res://player/sounds/footsteps/footstep_8.wav" id="9_e7oew"]
+[ext_resource type="AudioStream" uid="uid://48xt4llun7t8" path="res://player/sounds/footsteps/footstep_9.wav" id="10_c35mf"]
+[ext_resource type="AudioStream" uid="uid://dly32slohyd7p" path="res://player/sounds/footsteps/footstep_10.wav" id="11_65viv"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oul6g"]
+radius = 0.4
+height = 1.85
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_oul6g"]
+radius = 0.4
+height = 1.85
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_oul6g"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.7
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_oul6g")
+footstep_sound = Array[AudioStream]([ExtResource("2_2ieo8"), ExtResource("3_ebec5"), ExtResource("4_yllr7"), ExtResource("5_kb6p2"), ExtResource("6_wodsf"), ExtResource("7_32hag"), ExtResource("8_tqiix"), ExtResource("9_e7oew"), ExtResource("10_c35mf"), ExtResource("11_65viv")])
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925, 0)
+mesh = SubResource("CapsuleMesh_oul6g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925, 0)
+shape = SubResource("CapsuleShape3D_oul6g")
+
+[node name="HeadPosition" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="LandingAnimation" type="Node3D" parent="HeadPosition"]
+unique_name_in_owner = true
+
+[node name="Camera3D" type="Camera3D" parent="HeadPosition/LandingAnimation"]
+unique_name_in_owner = true
+
+[node name="OrientationIndicator" type="MeshInstance3D" parent="HeadPosition/LandingAnimation/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.35)
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_oul6g")
+
+[node name="CeilingDetector" type="RayCast3D" parent="."]
+target_position = Vector3(0, 2.1, 0)
+
+[node name="Crosshair" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FootstepSound" type="AudioStreamPlayer" parent="."]
+volume_db = -20.0
+max_polyphony = 10
