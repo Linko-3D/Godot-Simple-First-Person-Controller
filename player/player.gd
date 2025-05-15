@@ -31,8 +31,8 @@ func _physics_process(delta: float) -> void:
 		landing_velocity = -velocity.y
 		distance = 0
 
-	# Jump with Space
-	if Input.is_key_pressed(KEY_SPACE) and is_on_floor():
+	# Jump with Space - only if on floor and no ceiling above
+	if Input.is_key_pressed(KEY_SPACE) and is_on_floor() and not $CeilingDetector.is_colliding():
 		velocity.y = jump_velocity
 		play_random_footstep_sound()
 
