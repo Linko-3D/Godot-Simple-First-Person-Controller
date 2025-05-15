@@ -1,6 +1,5 @@
 extends CharacterBody3D
 
-
 @export var footstep_sound: Array[AudioStream]
 
 var run_speed = 5.5
@@ -23,7 +22,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		rotation_degrees.y -= event.relative.x / 10
 		%Camera3D.rotation_degrees.x -= event.relative.y / 10
-		%Camera3D.rotation_degrees.x = clamp( %Camera3D.rotation_degrees.x, -90, 90 )
+		%Camera3D.rotation_degrees.x = clamp(%Camera3D.rotation_degrees.x, -90, 90)
 
 
 func _physics_process(delta: float) -> void:
@@ -32,7 +31,8 @@ func _physics_process(delta: float) -> void:
 		landing_velocity = -velocity.y
 		distance = 0
 
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	# Jump with Space
+	if Input.is_key_pressed(KEY_SPACE) and is_on_floor():
 		velocity.y = jump_velocity
 		play_random_footstep_sound()
 
@@ -47,18 +47,34 @@ func _physics_process(delta: float) -> void:
 			landing_velocity = 0
 
 		speed = run_speed
-		if Input.is_action_pressed("crouch"):
+		# Crouch with Control
+		if Input.is_key_pressed(KEY_CTRL):
 			speed = crouch_speed
-		elif Input.is_action_pressed("walk"):
+		# Walk with Shift
+		elif Input.is_key_pressed(KEY_SHIFT):
 			speed = walk_speed
 
-	if Input.is_action_pressed("crouch"):
+	if Input.is_key_pressed(KEY_CTRL):
 		$CollisionShape3D.shape.height = lerp($CollisionShape3D.shape.height, 1.38, 0.1)
 
 	$MeshInstance3D.mesh.height = $CollisionShape3D.shape.height
 	%HeadPosition.position.y = $CollisionShape3D.shape.height - 0.25
 
-	var input_dir := Input.get_vector("left", "right", "forward", "backward")
+	# Movement inputs
+	var input_dir = Vector2.ZERO
+	# Forward (W or Z)
+	if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_Z):
+		input_dir.y -= 1
+	# Backward (S)
+	if Input.is_key_pressed(KEY_S):
+		input_dir.y += 1
+	# Left (A or Q)
+	if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_Q):
+		input_dir.x -= 1
+	# Right (D)
+	if Input.is_key_pressed(KEY_D):
+		input_dir.x += 1
+
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		velocity.x = direction.x * speed
@@ -82,7 +98,7 @@ func landing_animation(landing_velocity):
 		play_random_footstep_sound()
 
 	var tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE)
-	var amplitude = clamp( landing_velocity / 100, 0.0, 0.3)
+	var amplitude = clamp(landing_velocity / 100, 0.0, 0.3)
 
 	tween.tween_property(%LandingAnimation, "position:y", -amplitude, amplitude)
 	tween.tween_property(%LandingAnimation, "position:y", 0, amplitude)
